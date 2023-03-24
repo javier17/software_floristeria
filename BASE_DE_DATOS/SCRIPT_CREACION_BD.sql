@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `floristeria`.`Categorias` (
   `id_padre_categoria` INT NULL,
   PRIMARY KEY (`id_categoria`),
   UNIQUE INDEX `UQ_ID_CATEGORIA` (`id_categoria` ASC) VISIBLE,
+   UNIQUE INDEX `UQ_CATEGORIA_NOMBRE` (`nombre` ASC) VISIBLE,
   INDEX `IDX_ID_CATEGORIA` (`id_padre_categoria` ASC) VISIBLE,
   CONSTRAINT `FK_CATEGORIAS_ID_PADRE_CATEGORIA`
     FOREIGN KEY (`id_padre_categoria`)
