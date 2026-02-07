@@ -2,14 +2,21 @@ package com.relievesmelgar.floristeria.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
-
+@Data
 @Entity
 @Table(name = "Categorias")
 public class Categoria implements Serializable{
@@ -18,7 +25,7 @@ public class Categoria implements Serializable{
 	
 	@Id
 	@Column(name = "ID_CATEGORIA")
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "NOMBRE")
 	private String nombre;
@@ -35,53 +42,16 @@ public class Categoria implements Serializable{
 	@Column(name = "ESTADO")
 	private Boolean estado;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-
-	public LocalDate getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setFechaCreacion(LocalDate fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-
+    @ManyToOne
+    @JoinColumn(name = "ID_PADRE_CATEGORIA")
+    @JsonIgnore
+	private Categoria categoriaPadre;
+    
+    @OneToMany(mappedBy = "categoriaPadre")
+    private List<Categoria> subcategorias;
+    
+    @ManyToMany(mappedBy = "categorias")
+    @JsonIgnore
+    private List<Producto> productos;
 
 }
